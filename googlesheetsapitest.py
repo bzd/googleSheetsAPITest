@@ -8,6 +8,19 @@ import httplib2
 import os
 import re
 
+# ----------------------------------------------------------------------------------------------------------------
+# HACK follows:
+# If you don't set the 3rd party path ahead of Mac OS X's path, it will get the following error:
+#      parts = urllib.parse.urlparse(uri)
+#      AttributeError: 'Module_six_moves_urllib_parse' object has no attribute 'urlparse'
+#
+# Details: see comment at bottom of page here: http://stackoverflow.com/questions/29190604/attribute-error-trying-to-run-gmail-api-quickstart-in-python
+#
+# Force the loading of the 3rd party libs first...
+import sys
+sys.path.insert(1, '/Library/Python/2.7/site-packages')
+# ----------------------------------------------------------------------------------------------------------------
+
 from apiclient import discovery
 import oauth2client
 from oauth2client import client
@@ -24,8 +37,15 @@ except ImportError:
 
 #SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly'
 SCOPES = 'https://www.googleapis.com/auth/drive.file https://spreadsheets.google.com/feeds https://docs.google.com/feeds'
-CLIENT_SECRET_FILE = 'client_secret_981612606649-03ptve9ed27jj4h6k1ume8beqg6lm1bs.apps.googleusercontent.com.json'
-APPLICATION_NAME = 'Drive API Quickstart'
+
+# bsdrummond@gmail.com
+# CLIENT_SECRET_FILE = 'client_secret_981612606649-03ptve9ed27jj4h6k1ume8beqg6lm1bs.apps.googleusercontent.com.json'
+
+# bdrummond@linkedin.com
+CLIENT_SECRET_FILE = 'client_secret_302402880436-pqb9hvba1459g8mghnddqoklj5uq48pn.apps.googleusercontent.com.json'
+
+#APPLICATION_NAME = 'Drive API Quickstart'
+APPLICATION_NAME = 'Google Sheets API Tester'
 
 
 def get_credentials():
@@ -42,7 +62,7 @@ def get_credentials():
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
     credential_path = os.path.join(credential_dir,
-                                   'drive-quickstart.json')
+                                   'googleSheetsAPITest.json')
 
     store = oauth2client.file.Storage(credential_path)
     credentials = store.get()
@@ -66,6 +86,8 @@ def main():
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('drive', 'v2', http=http)
 
+    # Test:
+    # List all documents (scope: Google Drive API)
     results = service.files().list(maxResults=10).execute()
     items = results.get('items', [])
     if not items:
@@ -125,7 +147,9 @@ def main():
     # TEST:
     # STATUS: PASSED
     # Create a new spreadsheet
-    # body = { 'mimeType': 'application/vnd.google-apps.spreadsheet', 'title': 'ZZZZZZZZZZ',}
+    body = { 'mimeType': 'application/vnd.google-apps.spreadsheet', 'title': 'ZZ',}
+    ZZ_worksheet = gc.open("ZZ")
+    True
     # file = service.files().insert(body=body).execute(http=http)
 
 if __name__ == '__main__':
