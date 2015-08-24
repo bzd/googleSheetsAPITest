@@ -39,10 +39,10 @@ except ImportError:
 SCOPES = 'https://www.googleapis.com/auth/drive.file https://spreadsheets.google.com/feeds https://docs.google.com/feeds'
 
 # bsdrummond@gmail.com
-# CLIENT_SECRET_FILE = 'client_secret_981612606649-03ptve9ed27jj4h6k1ume8beqg6lm1bs.apps.googleusercontent.com.json'
+CLIENT_SECRET_FILE = 'client_secret_981612606649-03ptve9ed27jj4h6k1ume8beqg6lm1bs.apps.googleusercontent.com.json'
 
 # bdrummond@linkedin.com
-CLIENT_SECRET_FILE = 'client_secret_302402880436-pqb9hvba1459g8mghnddqoklj5uq48pn.apps.googleusercontent.com.json'
+#CLIENT_SECRET_FILE = 'client_secret_302402880436-pqb9hvba1459g8mghnddqoklj5uq48pn.apps.googleusercontent.com.json'
 
 #APPLICATION_NAME = 'Drive API Quickstart'
 APPLICATION_NAME = 'Google Sheets API Tester'
@@ -148,7 +148,11 @@ def main():
     # STATUS: PASSED
     # Create a new spreadsheet
     body = { 'mimeType': 'application/vnd.google-apps.spreadsheet', 'title': 'ZZ',}
-    ZZ_worksheet = gc.open("ZZ")
+    try:
+        ZZ_ss = gc.open("ZZ")
+    except:
+        print "ZZ spreadsheet not found"
+
     True
     # file = service.files().insert(body=body).execute(http=http)
 
