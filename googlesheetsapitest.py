@@ -73,7 +73,7 @@ def get_credentials():
             credentials = tools.run_flow(flow, store, flags)
         else: # Needed only for compatability with Python 2.6
             credentials = tools.run(flow, store)
-        print 'Storing credentials to ' + credential_path
+        print('Storing credentials to ' + credential_path)
     return credentials
 
 def main():
@@ -91,11 +91,11 @@ def main():
     results = service.files().list(maxResults=10).execute()
     items = results.get('items', [])
     if not items:
-        print 'No files found.'
+        print('No files found.')
     else:
-        print 'Files:'
+        print('Files:')
         for item in items:
-            print '{0} ({1})'.format(item['title'], item['id'])
+            print('{0} ({1})'.format(item['title'], item['id']) )
 
     # Part 2: create a new spreadsheet
     gc = gspread.authorize(credentials)
@@ -140,7 +140,7 @@ def main():
     cartoon_character_records = worksheet.get_all_records(empty2zero=False, head=header_of_cartoon_characters_table)
 
     for cartoon_character in cartoon_character_records:
-        print "First Name:", cartoon_character['First Name'],", Last Name:", cartoon_character['Last Name'],", Year Created:", cartoon_character['Year Created']
+        print( "First Name:", cartoon_character['First Name'],", Last Name:", cartoon_character['Last Name'],", Year Created:", cartoon_character['Year Created'] )
     # BREAKPOINT before exit, to examine any values in current scope
     True
 
@@ -151,7 +151,7 @@ def main():
     try:
         ZZ_ss = gc.open("ZZ")
     except:
-        print "ZZ spreadsheet not found"
+        print( "ZZ spreadsheet not found" )
 
     True
     # file = service.files().insert(body=body).execute(http=http)
