@@ -28,6 +28,7 @@ from oauth2client import tools
 
 import gspread
 
+from emailtest import emailtest
 
 try:
     import argparse
@@ -39,10 +40,10 @@ except ImportError:
 SCOPES = 'https://www.googleapis.com/auth/drive.file https://spreadsheets.google.com/feeds https://docs.google.com/feeds'
 
 # bsdrummond@gmail.com
-CLIENT_SECRET_FILE = 'client_secret_981612606649-03ptve9ed27jj4h6k1ume8beqg6lm1bs.apps.googleusercontent.com.json'
+#CLIENT_SECRET_FILE = 'client_secret_981612606649-03ptve9ed27jj4h6k1ume8beqg6lm1bs.apps.googleusercontent.com.json'
 
 # bdrummond@linkedin.com
-#CLIENT_SECRET_FILE = 'client_secret_302402880436-pqb9hvba1459g8mghnddqoklj5uq48pn.apps.googleusercontent.com.json'
+CLIENT_SECRET_FILE = 'client_secret_302402880436-pqb9hvba1459g8mghnddqoklj5uq48pn.apps.googleusercontent.com.json'
 
 #APPLICATION_NAME = 'Drive API Quickstart'
 APPLICATION_NAME = 'Google Sheets API Tester'
@@ -82,6 +83,7 @@ def main():
     Creates a Google Drive API service object and outputs the names and IDs
     for up to 10 files.
     """
+
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('drive', 'v2', http=http)
@@ -142,7 +144,6 @@ def main():
     for cartoon_character in cartoon_character_records:
         print "First Name:", cartoon_character['First Name'],", Last Name:", cartoon_character['Last Name'],", Year Created:", cartoon_character['Year Created']
     # BREAKPOINT before exit, to examine any values in current scope
-    True
 
     # TEST:
     # STATUS: PASSED
@@ -152,6 +153,13 @@ def main():
         ZZ_ss = gc.open("ZZ")
     except:
         print "ZZ spreadsheet not found"
+
+    # TEST:
+    # Open & access a spreadsheet/worksheet that is not owned
+    ss = gc.open("Copy of Q3-15 Capitalized Projects Reporting")
+    ws = ss.worksheet("Reporting - Q3-15")
+
+    emailtest(gc)
 
     True
     # file = service.files().insert(body=body).execute(http=http)
